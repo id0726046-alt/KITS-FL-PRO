@@ -1,12 +1,10 @@
 # KITS-FL-PRO
 
-Scaffold inicial para una app React (Vite) basada en la UI original "Kits FL Pro".
+Scaffold de la app React (Vite) para "Kits FL Pro".
 
-Ramas:
-- feature/react-app: scaffold de la aplicación React + Vite.
+Commands
 
-Instrucciones rápidas:
-1. Instala dependencias: `npm install`
-2. Ejecuta en desarrollo: `npm run dev`
+- npm install
+- npm run dev
 
-Hecho por Copilot AI (asistente) a petición del propietario del repo.
+Branch: feature/react-app
