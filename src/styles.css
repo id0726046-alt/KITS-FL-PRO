@@ -1,182 +1,352 @@
-/* Styles adapted from the original HTML/CSS */
 * {
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  background: #070b12;
 }
 
 body {
-    margin: 0;
-    background: #070b12;
-    color: white;
+  color: #fff;
 }
 
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+/* APP */
+
+.app {
+  min-height: 100vh;
+  background: #070b12;
+}
+
+/* HEADER */
+
 header {
-    background: #0d1520;
-    padding: 18px;
-    text-align: center;
-    border-bottom: 1px solid #203246;
+  background: #0d1520;
+  padding: 20px 16px;
+  text-align: center;
+  border-bottom: 1px solid #203246;
 }
 
 header h1 {
-    margin: 0;
-    font-size: 25px;
+  margin: 0;
+  font-size: 25px;
 }
+
+header p {
+  margin: 6px 0 0;
+  color: #8292a3;
+  font-size: 13px;
+}
+
+/* CONTAINER */
 
 .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 18px;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 18px;
 }
 
+/* ADD BUTTON */
+
 .add-btn {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    background: #168cff;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    margin-bottom: 20px;
+  width: 100%;
+  padding: 16px;
+  border: 0;
+  border-radius: 14px;
+  background: #168cff;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: 0 8px 25px rgba(22, 140, 255, 0.18);
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+}
+
+/* LEAGUES */
+
+.league-list {
+  margin-top: 18px;
 }
 
 .league {
-    background: #101a26;
-    border: 1px solid #203246;
-    border-radius: 16px;
-    padding: 15px;
-    margin-bottom: 15px;
+  background: #101a26;
+  border: 1px solid #203246;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 14px;
 }
 
 .league-top {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
+.league-info {
+  min-width: 0;
+}
+
+.league-info h2 {
+  margin: 0;
+  font-size: 19px;
+  word-break: break-word;
+}
+
+.league-info span {
+  display: block;
+  margin-top: 5px;
+  color: #74869a;
+  font-size: 13px;
+}
+
+/* CREST */
+
 .crest {
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    background: #0a111a;
-    border-radius: 12px;
-    padding: 5px;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  background: #0a111a;
+  border-radius: 12px;
+  padding: 6px;
+  flex: 0 0 68px;
 }
 
 .crest.placeholder {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
 }
 
-.league h2 {
-    margin: 0;
-    font-size: 19px;
-}
+/* KITS LINK */
 
 .kits-link {
-    display: block;
-    margin-top: 15px;
-    padding: 13px;
-    background: #172536;
-    border-radius: 10px;
-    color: #55b3ff;
-    text-decoration: none;
-    text-align: center;
-    font-weight: bold;
+  display: block;
+  margin-top: 15px;
+  padding: 13px;
+  background: #172536;
+  border-radius: 10px;
+  color: #55b3ff;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 700;
 }
 
+.kits-link:active {
+  transform: scale(0.98);
+}
+
+/* ACTIONS */
+
 .actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .actions button {
-    flex: 1;
-    padding: 11px;
-    border: none;
-    border-radius: 9px;
-    color: white;
-    font-weight: bold;
+  flex: 1;
+  padding: 11px;
+  border: 0;
+  border-radius: 9px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.actions button:active {
+  transform: scale(0.98);
 }
 
 .edit {
-    background: #34485d;
+  background: #34485d;
 }
 
 .delete {
-    background: #b52b35;
+  background: #b52b35;
 }
+
+/* EMPTY */
 
 .empty {
-    text-align: center;
-    color: #7d8b99;
-    margin-top: 45px;
+  text-align: center;
+  color: #7d8b99;
+  margin-top: 55px;
+  padding: 20px;
 }
 
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.empty h3 {
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+.empty p {
+  margin: 0;
+}
+
+/* MODAL */
+
 .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.78);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.78);
 }
 
 .modal-box {
-    width: 100%;
-    max-width: 450px;
-    background: #101a26;
-    border: 1px solid #26394d;
-    border-radius: 18px;
-    padding: 20px;
+  width: 100%;
+  max-width: 450px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #101a26;
+  border: 1px solid #26394d;
+  border-radius: 18px;
+  padding: 20px;
 }
+
+.modal-box h2 {
+  margin: 0 0 10px;
+}
+
+/* FORM */
 
 label {
-    display: block;
-    margin: 14px 0 7px;
-    color: #b9c6d3;
+  display: block;
+  margin: 14px 0 7px;
+  color: #b9c6d3;
+  font-size: 14px;
 }
 
-input[type="text"],
-input[type="url"],
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #304457;
+  background: #08111a;
+  color: #fff;
+  outline: none;
+}
+
+input:focus {
+  border-color: #168cff;
+}
+
 input[type="file"] {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid #304457;
-    background: #08111a;
-    color: white;
+  padding: 11px;
+}
+
+/* PREVIEW */
+
+.preview-container {
+  text-align: center;
+  margin-top: 12px;
 }
 
 .preview {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    display: block;
-    margin: 12px auto;
+  display: block;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin: 0 auto 8px;
+  background: #0a111a;
+  border-radius: 12px;
+  padding: 5px;
 }
+
+.remove-crest {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #293746;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.remove-crest:active {
+  transform: scale(0.98);
+}
+
+/* SAVE / CANCEL */
 
 .save,
 .cancel {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 11px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 11px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .save {
-    margin-top: 18px;
-    background: #168cff;
+  margin-top: 18px;
+  background: #168cff;
 }
 
 .cancel {
-    margin-top: 8px;
-    background: #293746;
+  margin-top: 8px;
+  background: #293746;
 }
+
+.save:active,
+.cancel:active {
+  transform: scale(0.98);
+}
+
+/* MOBILE */
+
+@media (max-width: 420px) {
+
+  .container {
+    padding: 14px;
+  }
+
+  .league {
+    padding: 13px;
+  }
+
+  .crest {
+    width: 60px;
+    height: 60px;
+    flex-basis: 60px;
+  }
+
+  .league-info h2 {
+    font-size: 17px;
+  }
+
+  .actions button {
+    font-size: 13px;
+  }
+
+  .modal-box {
+    padding: 17px;
+  }
+    }
