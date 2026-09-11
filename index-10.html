@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09a9e0">
+<title>KITS FL PRO</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#08a9df}
+.app{max-width:900px;margin:auto;min-height:100vh;padding-bottom:82px}
+header{height:190px;position:relative;display:flex;justify-content:center;align-items:center}
+.logo{background:#ffe500;border:5px solid #111;color:#111;font-size:42px;font-weight:900;font-style:italic;padding:5px 22px;transform:skew(-8deg)}
+.logo small{display:block;text-align:center;font-size:10px;font-style:normal}
+.search{position:absolute;right:22px;top:28px;color:white;font-size:48px;border:0;background:none;cursor:pointer}
+.clean-space{height:100px}
+.bottom{position:fixed;left:0;right:0;bottom:0;height:82px;background:white;display:grid;grid-template-columns:repeat(5,1fr);z-index:10}
+.nav{border:0;border-right:1px solid #999;background:#fff;font-weight:800;font-size:14px;cursor:pointer}.nav span{display:block;font-size:30px;margin-bottom:3px}
+.page{display:none;background:#f4f7fb;min-height:calc(100vh - 190px);padding:16px}.page.active{display:block}
+.add{background:#1689ee;color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer}
+.teamgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.team{background:#fff;border-radius:16px;padding:15px;text-align:center;cursor:pointer;box-shadow:0 2px 8px #0001}.team img{width:110px;height:110px;object-fit:contain}.team b{display:block;margin-top:7px}
+.detail{display:none;background:#f4f7fb;min-height:100vh;padding:15px}.detail.active{display:block}
+.detailTop{background:white;border-radius:18px;padding:18px;display:grid;grid-template-columns:270px 1fr;gap:22px;align-items:center}.crest{width:250px;height:250px;object-fit:contain}.detail h2{font-size:30px;margin:0 0 7px}.country{color:#667085;font-size:18px}
+.kit{background:#fff;border-radius:18px;padding:15px;margin-top:15px}.kit h3{margin:0 0 12px;font-size:23px}.kitbody{display:grid;grid-template-columns:330px 1fr;gap:25px;align-items:center}.kitimg{width:100%;height:260px;object-fit:contain;border-radius:12px;background:#f6f7f9}.url{width:100%;padding:12px;border:1px solid #b7cce0;border-radius:9px;background:#f5faff}.copywide{width:100%;margin-top:8px;border:0;border-radius:10px;background:#1689ee;color:#fff;padding:13px;font-weight:800;cursor:pointer}.copy{width:100%;margin-top:8px;padding:12px;background:#1689ee;color:#fff;border:0;border-radius:9px;font-weight:800;cursor:pointer}.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.small .kitbody{grid-template-columns:180px 1fr}.small .kitimg{height:180px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.box{background:white;border-radius:18px;padding:20px;width:min(460px,100%);max-height:92vh;overflow:auto}.box h2{margin-top:0}.box label{display:block;font-weight:700;margin-top:10px}.box input{width:100%;padding:11px;margin-top:5px;border:1px solid #aaa;border-radius:9px}.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.secondary{background:#ddd;color:#111}.hint{color:#667085;font-size:13px}
+.leagueCard{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px #0001;display:flex;align-items:center;justify-content:space-between;gap:10px}.leagueName{font-weight:800;font-size:18px}.miniDelete{border:0;background:#e53935;color:#fff;border-radius:9px;padding:8px 10px;font-weight:700;cursor:pointer}.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111;color:#fff;padding:11px 16px;border-radius:10px;z-index:200;display:none}.toast.show{display:block}@media(max-width:650px){header{height:170px}.logo{font-size:34px}.search{font-size:43px}.clean-space{height:80px}.detailTop{grid-template-columns:1fr;text-align:left}.crest{width:210px;height:210px;margin:auto}.detail h2{font-size:27px}.kitbody,.small .kitbody{grid-template-columns:1fr}.kitimg,.small .kitimg{height:230px}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="logo">KITS FL PRO<small>THE FUTURE OF KITS</small></div>
+<button class="search" onclick="searchTeams()">⌕</button>
+</header>
+
+<section id="home" class="page active">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><h2 style="margin:0">LATEST</h2><button class="add" onclick="openModal()">＋ Añadir</button></div>
+<div id="teams" class="teamgrid"></div>
+</section>
+
+<section id="clubPage" class="page">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><h2 style="margin:0">CLUB</h2><button class="add" onclick="openModal()">＋ Añadir</button></div>
+<div id="clubs" class="teamgrid"></div>
+</section>
+
+<section id="nationalPage" class="page">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><h2 style="margin:0">NATIONAL</h2><button class="add" onclick="openModal()">＋ Añadir</button></div>
+<div id="nationals" class="teamgrid"></div>
+</section>
+
+<section id="leaguesPage" class="page">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><h2 style="margin:0">LIGAS</h2><button class="add" onclick="openLeagueModal()">＋ Añadir liga</button></div>
+<div id="leagues" style="display:grid;gap:12px"></div>
+<div id="leagueTeams" class="teamgrid" style="margin-top:15px"></div>
+</section>
+
+<section id="donatePage" class="page">
+<div style="background:#fff;border-radius:18px;padding:22px;max-width:650px;margin:auto">
+<h2 style="margin-top:0">💰 DONATE</h2>
+<p id="donateText" style="color:#667085">Gracias por apoyar KITS FL PRO ❤️</p>
+<div id="donateContent"></div>
+<button class="add" onclick="openDonateModal()">⚙️ Configurar DONATE</button>
+</div>
+</section>
+</div>
+
+<section id="detail" class="detail">
+<button class="add" onclick="closeDetail()" style="margin-bottom:12px">← Volver</button>
+<div id="detailContent"></div>
+</section>
+
+<nav class="bottom">
+<button class="nav" onclick="page('home')"><span>⌂</span>LATEST</button>
+<button class="nav" onclick="page('clubPage')"><span>⚽</span>CLUB</button>
+<button class="nav" onclick="page('nationalPage')"><span>♟</span>NATIONAL</button>
+<button class="nav" onclick="page('leaguesPage')"><span>▤</span>LIGAS</button>
+<button class="nav" onclick="page('donatePage')"><span>🖐</span>DONATE</button>
+</nav>
+
+<div id="modal" class="modal">
+<div class="box">
+<h2 id="modalTitle">Añadir equipo</h2>
+<label>Nombre</label><input id="name" placeholder="Ej. Paris Saint-Germain">
+<label>País</label><input id="country" placeholder="Ej. France">
+<label>Tipo</label><select id="type" style="width:100%;padding:11px;margin-top:5px;border-radius:9px"><option value="club">Club</option><option value="national">National</option></select>
+<label>Liga</label><select id="leagueId" style="width:100%;padding:11px;margin-top:5px;border-radius:9px"><option value="">Sin liga</option></select>
+<label>Escudo — URL</label><input id="crestUrl" placeholder="https://...">
+<label>Escudo desde galería</label><input id="crestFile" type="file" accept="image/*">
+<p class="hint">Puedes elegir las fotos directamente de la galería de tu teléfono.</p>
+<label>Home Kit — URL</label><input id="homeUrl" placeholder="https://...">
+<input id="homeFile" type="file" accept="image/*">
+
+<label>Away Kit — URL</label><input id="awayUrl" placeholder="https://...">
+<input id="awayFile" type="file" accept="image/*">
+
+<label>Portero Local — URL</label><input id="gkHomeUrl" placeholder="https://...">
+<input id="gkHomeFile" type="file" accept="image/*">
+
+<label>Portero Visitante — URL</label><input id="gkAwayUrl" placeholder="https://...">
+<input id="gkAwayFile" type="file" accept="image/*">
+<div class="actions"><button class="add secondary" onclick="closeModal()">Cancelar</button><button class="add" onclick="saveTeam()">Guardar</button></div>
+</div>
+</div>
+
+
+<div id="leagueModal" class="modal">
+<div class="box">
+<h2 id="leagueModalTitle">Añadir liga</h2>
+<label>Nombre de la liga</label><input id="leagueName" placeholder="Ej. Premier League">
+<div class="actions"><button class="add secondary" onclick="closeLeagueModal()">Cancelar</button><button class="add" onclick="saveLeague()">Guardar</button></div>
+</div></div>
+
+<div id="donateModal" class="modal">
+<div class="box">
+<h2>Configurar DONATE</h2>
+<label>Texto</label>
+<input id="dText" placeholder="Gracias por apoyar KITS FL PRO ❤️">
+<label>Enlace de donación</label>
+<input id="dLink" placeholder="https://...">
+<label>Datos de donación (opcional)</label>
+<input id="dData" placeholder="Ej. PayPal: usuario@ejemplo.com">
+<label>Nombre del botón</label>
+<input id="dButton" placeholder="Donar ahora">
+<div class="actions">
+<button class="add secondary" onclick="closeDonateModal()">Cancelar</button>
+<button class="add" onclick="saveDonate()">Guardar</button>
+</div>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+const KEY="kitsFLProData";
+let teams=JSON.parse(localStorage.getItem(KEY)||"[]");
+const LEAGUE_KEY="kitsFLProLeagues";
+let leagues=JSON.parse(localStorage.getItem(LEAGUE_KEY)||"[]");
+
+function page(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById("detail").classList.remove("active");
+ document.getElementById(id).classList.add("active");
+ render();
+ if(id==="leaguesPage") renderLeagues();
+}
+
+const DONATE_KEY="kitsFLProDonate";
+function getDonate(){return JSON.parse(localStorage.getItem(DONATE_KEY)||'{"text":"Gracias por apoyar KITS FL PRO ❤️","link":"","data":"","button":"Donar ahora"}')}
+function renderDonate(){
+ const d=getDonate();
+ document.getElementById("donateText").textContent=d.text||"";
+ let c=document.getElementById("donateContent");
+ let out="";
+ if(d.link){
+   out+=`<a href="${escapeHtml(d.link)}" target="_blank" rel="noopener" style="display:block;text-decoration:none"><button class="copy" style="width:100%;padding:13px;font-size:17px">💙 ${escapeHtml(d.button||"Donar ahora")}</button></a>`;
+ }
+ if(d.data){
+   out+=`<div style="margin-top:14px"><b>Datos de donación</b><div class="urlrow" style="margin-top:7px"><input id="donateData" class="url" value="${escapeHtml(d.data)}" readonly><button class="copy" onclick="copyURL('${encodeURIComponent(d.data)}')">▣</button></div><button class="copy" style="margin-top:8px" onclick="copyURL('${encodeURIComponent(d.data)}')">▣ &nbsp; COPY DATOS</button></div>`;
+ }
+ if(!out) out='<p class="hint">Todavía no has configurado un enlace o datos de donación.</p>';
+ c.innerHTML=out;
+}
+function openDonateModal(){
+ const d=getDonate();
+ document.getElementById("dText").value=d.text||"";
+ document.getElementById("dLink").value=d.link||"";
+ document.getElementById("dData").value=d.data||"";
+ document.getElementById("dButton").value=d.button||"Donar ahora";
+ document.getElementById("donateModal").classList.add("open");
+}
+function closeDonateModal(){document.getElementById("donateModal").classList.remove("open")}
+function saveDonate(){
+ const d={text:document.getElementById("dText").value.trim(),link:document.getElementById("dLink").value.trim(),data:document.getElementById("dData").value.trim(),button:document.getElementById("dButton").value.trim()||"Donar ahora"};
+ localStorage.setItem(DONATE_KEY,JSON.stringify(d));
+ closeDonateModal();renderDonate();
+}
+
+function openModal(editId=null, leagueId=null){
+ editId=editId||null;
+ document.getElementById("modalTitle").textContent=editId?"Editar equipo":"Añadir equipo";
+ document.getElementById("modal").classList.add("open");
+ const t=editId?teams.find(x=>String(x.id)===String(editId)):null;
+ ["name","country","homeUrl","awayUrl","gkHomeUrl","gkAwayUrl","crestUrl"].forEach(k=>{let el=document.getElementById(k);if(el)el.value=""});
+ ["crestFile","homeFile","awayFile","gkHomeFile","gkAwayFile"].forEach(k=>{let el=document.getElementById(k);if(el)el.value=""});
+ document.getElementById("type").value="club";
+ renderLeagueSelect();
+ window.editingTeamId=editId; window.addingLeagueId=leagueId||"";
+ if(t){
+  document.getElementById("name").value=t.name||"";document.getElementById("country").value=t.country||"";document.getElementById("type").value=t.type||"club";
+  document.getElementById("leagueId").value=t.leagueId||"";
+  document.getElementById("homeUrl").value=t.homeUrl||"";document.getElementById("awayUrl").value=t.awayUrl||"";document.getElementById("gkHomeUrl").value=t.gkhUrl||"";document.getElementById("gkAwayUrl").value=t.gkaUrl||"";
+  document.getElementById("crestUrl").value=t.crestUrl||"";
+ }
+}
+function closeModal(){document.getElementById("modal").classList.remove("open");window.editingTeamId=null;window.addingLeagueId=""}
+function fileData(id){return new Promise(resolve=>{let f=document.getElementById(id).files[0];if(!f)return resolve("");let r=new FileReader();r.onload=()=>resolve(r.result);r.readAsDataURL(f)})}
+async function saveTeam(){
+ let name=document.getElementById("name").value.trim();if(!name){alert("Escribe el nombre del equipo.");return}
+ let [crest,home,away,gkh,gka]=await Promise.all(["crestFile","homeFile","awayFile","gkHomeFile","gkAwayFile"].map(fileData));
+ let editId=window.editingTeamId;
+ let existing=editId?teams.find(x=>String(x.id)===String(editId)):null;
+ let t={id:existing?existing.id:Date.now(),name,country:document.getElementById("country").value.trim(),type:document.getElementById("type").value,
+ leagueId:document.getElementById("leagueId").value,
+ crest:crest|| (existing?existing.crest:""),crestUrl:document.getElementById("crestUrl").value.trim(),
+ home:home|| (existing?existing.home:""),away:away|| (existing?existing.away:""),gkh:gkh|| (existing?existing.gkh:""),gka:gka|| (existing?existing.gka:""),
+ homeUrl:document.getElementById("homeUrl").value.trim(),awayUrl:document.getElementById("awayUrl").value.trim(),gkhUrl:document.getElementById("gkHomeUrl").value.trim(),gkaUrl:document.getElementById("gkAwayUrl").value.trim(),favorite:existing?!!existing.favorite:false};
+ if(!editId && window.addingLeagueId) t.leagueId=window.addingLeagueId;
+  if(existing){teams=teams.map(x=>String(x.id)===String(editId)?t:x)}else teams.push(t);
+ localStorage.setItem(KEY,JSON.stringify(teams));closeModal();render();
+}
+function renderLeagueSelect(){
+ const sel=document.getElementById("leagueId"); if(!sel)return;
+ sel.innerHTML='<option value="">Sin liga</option>'+leagues.map(l=>`<option value="${l.id}">${escapeHtml(l.name)}</option>`).join("");
+}
+function renderLeagues(){
+ const el=document.getElementById("leagues"), grid=document.getElementById("leagueTeams");
+ if(!el)return;
+ el.innerHTML=""; grid.innerHTML="";
+ if(!leagues.length){el.innerHTML='<div class="empty"><b>No hay ligas todavía.</b><br><br>Pulsa ＋ Añadir liga para crear la primera.</div>';return;}
+ leagues.forEach(l=>{
+   const count=teams.filter(t=>String(t.leagueId)===String(l.id)).length;
+   const d=document.createElement("div"); d.className="leagueCard";
+   d.innerHTML=`<div><div class="leagueName">⚽ ${escapeHtml(l.name)}</div><span class="hint">${count} equipo${count===1?'':'s'}</span></div><button class="miniDelete" onclick="event.stopPropagation();deleteLeague('${l.id}')">🗑️ Eliminar</button>`;
+   d.onclick=()=>showLeagueTeams(l.id); el.appendChild(d);
+ });
+}
+function showLeagueTeams(id){
+ const l=leagues.find(x=>String(x.id)===String(id)); if(!l)return;
+ const grid=document.getElementById("leagueTeams"); grid.innerHTML=`<div style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">${escapeHtml(l.name)}</h3><button class="add" onclick="openModal(null, '${l.id}')">＋ Equipo</button></div>`;
+ const list=teams.filter(t=>String(t.leagueId)===String(id));
+ if(!list.length){grid.innerHTML+='<div class="empty">No hay equipos en esta liga.</div>';return;}
+ list.forEach(t=>{let d=document.createElement("div");d.className="team";d.innerHTML=t.crest?`<img src="${t.crest}">`:'<div style="height:110px;font-size:60px;padding-top:20px">⚽</div>';d.innerHTML+=`<b>${escapeHtml(t.name)}</b><button class="miniDelete" style="width:100%;margin-top:10px" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑️ Eliminar</button>`;d.onclick=()=>openDetail(t.id);grid.appendChild(d)});
+}
+function openLeagueModal(){document.getElementById("leagueName").value="";document.getElementById("leagueModal").classList.add("open")}
+function closeLeagueModal(){document.getElementById("leagueModal").classList.remove("open")}
+function saveLeague(){const name=document.getElementById("leagueName").value.trim();if(!name){alert("Escribe el nombre de la liga.");return;} if(leagues.some(l=>l.name.toLowerCase()===name.toLowerCase())){alert("Esa liga ya existe.");return;} leagues.push({id:Date.now().toString(),name});localStorage.setItem(LEAGUE_KEY,JSON.stringify(leagues));closeLeagueModal();renderLeagues();renderLeagueSelect();toast("Liga guardada")}
+function deleteLeague(id){
+ const l=leagues.find(x=>String(x.id)===String(id));
+ if(!l)return;
+ if(!confirm(`¿Eliminar la liga "${l.name}"? Los equipos no se eliminarán; quedarán sin liga.`))return;
+ teams=teams.map(t=>String(t.leagueId)===String(id)?({...t,leagueId:""}):t);
+ localStorage.setItem(KEY,JSON.stringify(teams));
+ leagues=leagues.filter(x=>String(x.id)!==String(id));
+ localStorage.setItem(LEAGUE_KEY,JSON.stringify(leagues));
+ render();
+ renderLeagues();
+ renderLeagueSelect();
+ toast("Liga eliminada");
+}
+function toast(msg){const e=document.getElementById("toast");e.textContent=msg;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1800)}
+function render(){
+ fill("teams",teams);fill("clubs",teams.filter(x=>x.type==="club"));fill("nationals",teams.filter(x=>x.type==="national"));
+}
+function fill(id,list){
+ let el=document.getElementById(id);el.innerHTML="";
+ if(!list.length){el.innerHTML='<div style="grid-column:1/-1;background:#fff;padding:30px;text-align:center;border-radius:16px">No hay equipos todavía.<br><br>Pulsa ＋ Añadir para agregar uno.</div>';return}
+ list.forEach(t=>{let d=document.createElement("div");d.className="team";d.innerHTML=t.crest?`<img src="${t.crest}">`:'<div style="height:110px;font-size:60px;padding-top:20px">⚽</div>';d.innerHTML+=`<b>${escapeHtml(t.name)}</b><button class="miniDelete" style="width:100%;margin-top:10px" onclick="event.stopPropagation();deleteTeam('${t.id}')">🗑️ Eliminar</button>`;d.onclick=()=>openDetail(t.id);el.appendChild(d)})
+}
+function openDetail(id){
+ let t=teams.find(x=>x.id===id);if(!t)return;
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById("detail").classList.add("active");
+ document.getElementById("detailContent").innerHTML=`
+ <div class="detailTop">
+ ${t.crest?`<img class="crest" src="${t.crest}">`:'<div class="crest" style="display:grid;place-items:center;font-size:90px">⚽</div>'}
+ <div><h2>${escapeHtml(t.name)}</h2><div class="country">${escapeHtml(t.country)}</div></div>
+ </div>
+ ${kit(t.crest,"🛡️ Escudo del equipo",false,t.crestUrl,t.id,"crestUrl")}
+ ${kit(t.home,"👕 Home Kit",false,t.homeUrl,t.id,"homeUrl")}
+ ${kit(t.away,"👕 Away Kit",false,t.awayUrl,t.id,"awayUrl")}
+ <div class="two">${kit(t.gkh,"🧤 Portero Local",true,t.gkhUrl,t.id,"gkhUrl")}${kit(t.gka,"🧤 Portero Visitante",true,t.gkaUrl,t.id,"gkaUrl")}</div>
+ <div class="tools" style="margin-top:15px"><button class="add" onclick="openModal(${t.id})">✏️ Editar equipo</button><button class="add" onclick="deleteTeam(${t.id})">🗑️ Eliminar equipo</button></div>`;
+ window.scrollTo(0,0);
+}
+function kit(img,title,small=false,url="",teamId="",urlKey=""){
+ const safeUrl=escapeHtml(url||"");
+ return `<div class="kit ${small?'small':''}">
+ <h3>${title}</h3>
+ <div class="kitbody" style="display:block">
+   ${img?`<img class="kitimg" src="${img}">`:`<div class="kitimg" style="display:grid;place-items:center;color:#667085">Sin imagen</div>`}
+   <div style="margin-top:12px">
+     <p style="margin:0 0 7px">Imagen del kit</p>
+     <div class="urlrow">
+       <input id="url_${teamId}_${urlKey}" class="url" value="${safeUrl}" placeholder="https://..." onchange="saveKitURL('${teamId}','${urlKey}',this.value)">
+       <button class="copy" onclick="copyURL(document.getElementById('url_${teamId}_${urlKey}').value)">▣</button>
+     </div>
+     <button class="copywide" onclick="copyURL(document.getElementById('url_${teamId}_${urlKey}').value)">▣ &nbsp; Copy URL</button>
+     <div class="tools">
+       ${img?`<button class="add" style="background:#e53935" onclick="removeKitImage('${teamId}','${urlKey}')">🗑️ Eliminar imagen</button>`:""}
+       ${url?`<button class="add" style="background:#e53935" onclick="removeKitURL('${teamId}','${urlKey}')">🗑️ Eliminar URL</button>`:""}
+     </div>
+   </div>
+ </div>
+ </div>`;
+}
+function removeKitImage(teamId,key){
+ const t=teams.find(x=>String(x.id)===String(teamId)); if(!t)return;
+ if(!confirm("¿Eliminar esta imagen?"))return;
+ if(key==="crestUrl")t.crest="";
+ else if(key==="homeUrl")t.home="";
+ else if(key==="awayUrl")t.away="";
+ else if(key==="gkhUrl")t.gkh="";
+ else if(key==="gkaUrl")t.gka="";
+ localStorage.setItem(KEY,JSON.stringify(teams));
+ openDetail(teamId);
+}
+function removeKitURL(teamId,key){
+ const t=teams.find(x=>String(x.id)===String(teamId)); if(!t)return;
+ if(!confirm("¿Eliminar esta URL?"))return;
+ t[key]="";
+ localStorage.setItem(KEY,JSON.stringify(teams));
+ openDetail(teamId);
+}
+async function saveKitURL(teamId,key,value){
+ const t=teams.find(x=>String(x.id)===String(teamId));
+ if(!t)return;
+ t[key]=value.trim();
+ localStorage.setItem(KEY,JSON.stringify(teams));
+}
+function closeDetail(){document.getElementById("detail").classList.remove("active");page("home")}
+function deleteTeam(id){
+ const t=teams.find(x=>String(x.id)===String(id));
+ if(!t)return;
+ if(!confirm(`¿Eliminar "${t.name}"? Esta acción no se puede deshacer.`))return;
+ teams=teams.filter(x=>String(x.id)!==String(id));
+ localStorage.setItem(KEY,JSON.stringify(teams));
+ closeDetail();
+ render();
+ renderLeagues();
+ toast("Equipo eliminado");
+}
+function copyURL(encoded){
+ const url=decodeURIComponent(encoded||"");
+ if(!url){alert("No hay una URL guardada.");return}
+ if(navigator.clipboard && window.isSecureContext){
+   navigator.clipboard.writeText(url).then(()=>toast("URL copiada al portapapeles")).catch(()=>legacyCopy(url));
+ }else{ legacyCopy(url); }
+}
+function legacyCopy(url){const ta=document.createElement("textarea");ta.value=url;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");toast("URL copiada al portapapeles")}catch(e){alert("No se pudo copiar automáticamente. Mantén pulsado y copia el enlace.")}ta.remove()}
+function downloadImage(src){let a=document.createElement("a");a.href=src;a.download="kit.png";a.click()}
+function searchTeams(){let q=prompt("Buscar equipo");if(!q)return;let found=teams.filter(t=>t.name.toLowerCase().includes(q.toLowerCase()));document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));let h=document.getElementById("home");h.classList.add("active");let grid=document.getElementById("teams");grid.innerHTML="";found.forEach(t=>{let d=document.createElement("div");d.className="team";d.innerHTML=t.crest?`<img src="${t.crest}">`:'<div style="height:110px;font-size:60px">⚽</div>';d.innerHTML+=`<b>${escapeHtml(t.name)}</b>`;d.onclick=()=>openDetail(t.id);grid.appendChild(d)});document.querySelector("#home h2").textContent="BUSCAR"}
+function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+render();
+renderDonate();
+renderLeagues();
+renderLeagueSelect();
+</script>
+</body>
+</html>
