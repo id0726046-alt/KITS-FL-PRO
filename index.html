@@ -156,6 +156,114 @@ input{
 
 </div>
 
+</script>
+let datos = JSON.parse(localStorage.getItem("kitsFLPro")) || {
+  ligas: [],
+  selecciones: []
+};
 
+function guardar(){
+  localStorage.setItem("kitsFLPro", JSON.stringify(datos));
+}
+
+function mostrarAdmin(){
+  let clave = prompt("Clave de administrador:");
+
+  if(clave === "kitsflpro"){
+    document.getElementById("admin").classList.remove("hidden");
+    alert("Administrador activado");
+  } else {
+    alert("Clave incorrecta");
+  }
+}
+
+function agregarLiga(){
+
+  let nombre = prompt("Nombre de la liga:");
+
+  if(nombre){
+
+    datos.ligas.push({
+      nombre: nombre,
+      equipos: []
+    });
+
+    guardar();
+
+    alert("Liga creada");
+  }
+}
+
+function agregarEquipo(){
+
+  if(datos.ligas.length === 0){
+    alert("Primero crea una liga");
+    return;
+  }
+
+  let ligaNombre = prompt("Nombre de la liga:");
+
+  let liga = datos.ligas.find(
+    l => l.nombre === ligaNombre
+  );
+
+  if(liga){
+
+    let equipo = prompt("Nombre del equipo:");
+
+    liga.equipos.push({
+      nombre: equipo,
+      kits: []
+    });
+
+    guardar();
+
+    alert("Equipo añadido");
+
+  } else {
+
+    alert("Liga no encontrada");
+
+  }
+}
+
+function agregarKit(){
+
+  let equipoNombre = prompt("Equipo:");
+
+  for(let liga of datos.ligas){
+
+    let equipo = liga.equipos.find(
+      e => e.nombre === equipoNombre
+    );
+
+    if(equipo){
+
+      let nombreKit = prompt("Nombre del kit:");
+      let enlace = prompt("Enlace del kit:");
+
+      equipo.kits.push({
+        nombre: nombreKit,
+        enlace: enlace
+      });
+
+      guardar();
+
+      alert("Kit añadido");
+      return;
+    }
+  }
+
+  alert("Equipo no encontrado");
+}
+
+function copiar(enlace){
+
+ navigator.clipboard.writeText(enlace);
+
+ alert("Enlace copiado");
+}
+</script>
+ 
 </body>
   </html>
