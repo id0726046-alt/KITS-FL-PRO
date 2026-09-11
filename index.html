@@ -3,16 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>KITS FL PRO</title>
+
 <style>
-body{font-family:Arial;background:#0b8fd3;text-align:center;padding:40px}
-.card{background:white;border-radius:15px;padding:25px;max-width:500px;margin:auto}
+*{
+ box-sizing:border-box;
+ font-family:Arial, sans-serif;
+}
+
+body{
+ margin:0;
+ background:#087dcc;
+ color:white;
+}
+
+header{
+ text-align:center;
+ padding:20px;
+}
+
+.logo{
+ width:180px;
+ max-width:80%;
+}
+
+.container{
+ padding:15px;
+}
+
+.card{
+ background:white;
+ color:#111;
+ border-radius:18px;
+ padding:15px;
+ margin-bottom:15px;
+}
+
+button{
+ border:0;
+ padding:12px;
+ border-radius:10px;
+ background:#087dcc;
+ color:white;
+ cursor:pointer;
+ margin:5px;
+}
+
+.menu{
+ position:fixed;
+ bottom:0;
+ left:0;
+ right:0;
+ background:white;
+ display:flex;
+ justify-content:space-around;
+ padding:10px;
+}
+
+.menu button{
+ color:white;
+ font-size:12px;
+}
+
+.hidden{
+ display:none;
+}
+
+input{
+ width:100%;
+ padding:10px;
+ margin:5px 0;
+ border-radius:8px;
+ border:1px solid #ccc;
+}
 </style>
+
 </head>
+
 <body>
-<div class="card">
+
+<header>
 <h1>KITS FL PRO</h1>
-<p>Biblioteca de kits de fútbol</p>
+</header>
+
+
+<div class="container">
+
+<div id="publico">
+
+<div class="card">
+<h2>LATEST</h2>
+<p>No hay kits todavía</p>
 </div>
+
+</div>
+
+
+<div id="admin" class="hidden">
+
+<div class="card">
+
+<h2>Panel Administrador</h2>
+
+<button>
+➕ Añadir Liga
+</button>
+
+<button>
+⚽ Añadir Equipo
+</button>
+
+<button>
+🌎 Añadir Selección
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>DONATE</h2>
+<p>Aquí irá tu información o enlace</p>
+</div>
+
+
+</div>
+
+
+<div class="menu">
+
+<button>
+🏠 LATEST
+</button>
+
+<button>
+⚽ CLUB
+</button>
+
+<button>
+🌎 NATIONAL
+</button>
+
+<button>
+🔐 ADMIN
+</button>
+
+<button>
+💙 DONATE
+</button>
+
+</div>
+
+
 </body>
-</html>
+  </html>
